@@ -3,6 +3,19 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Эко-палитра */
+  --eco-primary: 58, 90, 64;
+  --eco-secondary: 88, 129, 87;
+  --eco-light: 163, 177, 138;
+  --eco-lighter: 218, 215, 205;
+  --eco-white: 248, 249, 250;
+  --eco-dark: 52, 78, 65;
+  --eco-medium: 108, 117, 125;
+
+  /* Шрифты */
+  --font-cursive: 'Dancing Script', cursive;
+  --font-sans: 'Open Sans', sans-serif;
 }
 
 @theme inline {
@@ -22,5 +35,41 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+/* Эко-цвета */
+.bg-eco-primary { background-color: rgb(var(--eco-primary)); }
+.text-eco-primary { color: rgb(var(--eco-primary)); }
+.border-eco-primary { border-color: rgb(var(--eco-primary)); }
+
+.bg-eco-secondary { background-color: rgb(var(--eco-secondary)); }
+.text-eco-secondary { color: rgb(var(--eco-secondary)); }
+
+.bg-eco-light { background-color: rgb(var(--eco-light)); }
+.text-eco-light { color: rgb(var(--eco-light)); }
+.border-eco-light { border-color: rgb(var(--eco-light)); }
+
+.bg-eco-lighter { background-color: rgb(var(--eco-lighter)); }
+.text-eco-lighter { color: rgb(var(--eco-lighter)); }
+
+.bg-eco-white { background-color: rgb(var(--eco-white)); }
+.text-eco-white { color: rgb(var(--eco-white)); }
+
+.bg-eco-dark { background-color: rgb(var(--eco-dark)); }
+.text-eco-dark { color: rgb(var(--eco-dark)); }
+
+.bg-eco-medium { background-color: rgb(var(--eco-medium)); }
+.text-eco-medium { color: rgb(var(--eco-medium)); }
+
+/* Шрифтовые классы */
+.font-cursive {
+  font-family: var(--font-cursive);
+}
+
+/* Дополнительные стили для совместимости */
+@layer utilities {
+  .font-sans {
+    font-family: var(--font-sans);
+  }
 }
