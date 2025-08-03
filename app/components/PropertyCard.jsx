@@ -62,8 +62,8 @@ export default function PropertyCard({ property }) {
             <div className="p-4">
                 <div className="flex justify-between items-start">
                     <motion.h3
-                        className="text-lg font-semibold text-eco-dark"
-                        whileHover={{ color: '#3a7d44' }} // eco-primary color
+                        className="text-lg font-semibold cursor-pointer text-eco-dark"
+                        whileHover={{ color: '#3a7d44' }}
                     >
                         {property.title}
                     </motion.h3>
@@ -102,10 +102,10 @@ export default function PropertyCard({ property }) {
                     {property.amenities.map((amenity, index) => (
                         <motion.span
                             key={index}
-                            className="text-xs bg-eco-lighter text-eco-dark px-2 py-1 rounded"
+                            className="text-xs cursor-pointer bg-eco-lighter text-eco-dark px-2 py-1 rounded"
                             whileHover={{
                                 scale: 1.1,
-                                backgroundColor: '#e8f5e9' // lighter eco color
+                                backgroundColor: '#e8f5e9'
                             }}
                             transition={{ type: 'spring', stiffness: 300 }}
                         >
@@ -120,13 +120,13 @@ export default function PropertyCard({ property }) {
                         <span className="text-eco-medium text-sm"> / night</span>
                     </div>
                     <motion.button
-                        className="bg-eco-primary text-white px-4 py-2 rounded-md hover:bg-eco-secondary transition"
+                        className="bg-eco-primary cursor-pointer text-white px-4 py-2 rounded-md hover:bg-eco-secondary transition"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={handleBookClick}
                         animate={{
                             scale: isBookPressed ? 0.95 : 1,
-                            backgroundColor: isHovered ? '#4a9f55' : '#3a7d44' // eco-secondary : eco-primary
+                            backgroundColor: isHovered ? '#4a9f55' : '#3a7d44'
                         }}
                     >
                         Book

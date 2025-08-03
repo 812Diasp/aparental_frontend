@@ -2,7 +2,7 @@ import SearchFilters from "@/app/components/SearchFilters";
 import PropertyCard from "@/app/components/PropertyCard";
 
 
-const mockProperties = [
+export const mockProperties = [
   {
     id: 1,
     title: "Wooden Eco Cabin",
@@ -45,13 +45,110 @@ const mockProperties = [
     baths: 2,
     amenities: ["Wifi", "Kitchen", "Fireplace", "Beach access"]
   },
+  {
+    id: 4,
+    title: "Modern City Loft",
+    location: "Downtown Chicago, Illinois",
+    price: 175,
+    rating: 4.6,
+    reviewCount: 203,
+    image: "https://images.unsplash.com/photo-1493809842364-78817add7ffb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+    isFavorite: false,
+    type: "Apartment",
+    beds: 1,
+    baths: 1,
+    amenities: ["Wifi", "Gym", "Pool", "Workspace"]
+  },
+  {
+    id: 5,
+    title: "Desert Adobe House",
+    location: "Sedona, Arizona",
+    price: 210,
+    rating: 4.9,
+    reviewCount: 92,
+    image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+    isFavorite: true,
+    type: "House",
+    beds: 2,
+    baths: 2,
+    amenities: ["Wifi", "Patio", "Mountain views", "Hot tub"]
+  },
+  {
+    id: 6,
+    title: "Beachfront Villa",
+    location: "Malibu, California",
+    price: 450,
+    rating: 4.95,
+    reviewCount: 68,
+    image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+    isFavorite: false,
+    type: "Villa",
+    beds: 4,
+    baths: 3,
+    amenities: ["Private beach", "Infinity pool", "Chef's kitchen", "Ocean view"]
+  },
+  {
+    id: 7,
+    title: "Alpine Ski Chalet",
+    location: "Aspen, Colorado",
+    price: 320,
+    rating: 4.8,
+    reviewCount: 115,
+    image: "https://images.unsplash.com/photo-1511884642898-4c92249e20b6?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+    isFavorite: true,
+    type: "Chalet",
+    beds: 3,
+    baths: 2,
+    amenities: ["Ski-in/ski-out", "Fireplace", "Sauna", "Mountain view"]
+  },
+  {
+    id: 8,
+    title: "Historic Brownstone",
+    location: "Brooklyn, New York",
+    price: 275,
+    rating: 4.7,
+    reviewCount: 143,
+    image: "https://images.unsplash.com/photo-1536376072261-38c75010e6c9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+    isFavorite: false,
+    type: "Townhouse",
+    beds: 2,
+    baths: 1.5,
+    amenities: ["Wifi", "Garden", "Historical charm", "City view"]
+  },
+  {
+    id: 9,
+    title: "Romantic Windmill",
+    location: "Amsterdam Countryside",
+    price: 190,
+    rating: 4.9,
+    reviewCount: 56,
+    image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+    isFavorite: true,
+    type: "Unique",
+    beds: 1,
+    baths: 1,
+    amenities: ["Wifi", "Canalside", "Bicycle rental", "Breakfast"]
+  },
+  {
+    id: 10,
+    title: "Luxury Penthouse",
+    location: "Miami Beach, Florida",
+    price: 500,
+    rating: 4.95,
+    reviewCount: 78,
+    image: "https://images.unsplash.com/photo-1502672023488-70e25813eb80?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+    isFavorite: false,
+    type: "Penthouse",
+    beds: 3,
+    baths: 3.5,
+    amenities: ["Rooftop pool", "Concierge", "Panoramic views", "Smart home"]
+  }
 ];
 
 export default function Home() {
   return (
       <div>
         <div className="bg-eco-white">
-          {/* Hero Section */}
           <div className="relative bg-eco-primary overflow-hidden">
             <div className="max-w-7xl mx-auto">
               <div className="relative z-10 pb-8 bg-eco-primary sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
@@ -75,10 +172,8 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Search and Filters */}
           <SearchFilters />
 
-          {/* Property Listings */}
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <h2 className="text-3xl font-cursive text-eco-dark mb-8">Featured Stays</h2>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">

@@ -27,8 +27,8 @@ export default function Navbar() {
 
     const navLinks = [
         { href: '/', label: 'Home' },
-        { href: '/explore', label: 'Explore' },
-        { href: '/favorites', label: 'Favorites' },
+        { href: '/pages/explore', label: 'Explore' },
+        { href: '/pages/favorites', label: 'Favorites' },
     ];
 
     const isActive = (path) => pathname === path;
