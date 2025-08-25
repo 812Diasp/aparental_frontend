@@ -25,6 +25,7 @@ app/
 └─ favicon.ico           # Иконка сайта
 
 public/                   # Статические файлы (SVG, изображения)
+package.json              # Зависимости и скрипты
 package-lock.json         # Зависимости
 next.config.mjs           # Конфигурация Next.js
 postcss.config.mjs        # Конфигурация PostCSS
@@ -48,11 +49,4 @@ npm run dev
 ```bash
 npm run build
 npm start
-```
-
-## Советы
-
-* Не включать `.env` файлы и секретные ключи в репозиторий.
-* Для деплоя рекомендуется использовать платформы, поддерживающие Next.js, например **Vercel**.
-* `.next` и `node_modules` не должны попадать в архив.
 ```
