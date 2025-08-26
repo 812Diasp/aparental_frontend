@@ -49,7 +49,7 @@ export default function SearchFilters() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 -mt-10 relative z-20">
             <div className="bg-white rounded-xl shadow-lg p-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    {/* Where */}
+
                     <div className="relative group">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <FaSearch className="text-eco-medium" />
@@ -61,7 +61,6 @@ export default function SearchFilters() {
                         />
                     </div>
 
-                    {/* Check in/out */}
                     <div className="relative group">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <FaCalendarAlt className="text-eco-medium" />
@@ -96,7 +95,6 @@ export default function SearchFilters() {
                         </AnimatePresence>
                     </div>
 
-                    {/* Guests */}
                     <div className="relative group hover:text-black">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <FaUserFriends className="text-eco-medium text-black" />
@@ -111,14 +109,13 @@ export default function SearchFilters() {
                         </select>
                     </div>
 
-                    {/* Search */}
+
                     <button className="bg-eco-primary text-white px-6 py-2 rounded-lg hover:bg-eco-secondary transition transform hover:scale-105 flex items-center justify-center">
                         <FaSearch className="mr-2" />
                         Search
                     </button>
                 </div>
 
-                {/* Tags */}
                 <div className="mt-4 flex flex-wrap gap-2">
                     {['Cabins', 'Treehouses', 'Tiny homes', 'Beachfront', 'Farms'].map((tag) => (
                         <button

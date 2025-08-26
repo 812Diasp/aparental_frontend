@@ -23,7 +23,7 @@ export default function PropertyCard({ property }) {
     return (
         <motion.div
             className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 border border-eco-lighter"
-            whileHover={{ y: -5 }}
+            whileHover={{ y: -5, backgroundColor: '#ddffd9' }}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >

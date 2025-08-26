@@ -2,9 +2,13 @@
 
 import { motion } from 'framer-motion';
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { login, register } from "../store/slices/authSlice";
 
 export default function LoginModal({ onClose }) {
     const [isRegister, setIsRegister] = useState(false);
+    const dispatch = useDispatch();
+    const { loading, error } = useSelector((state) => state.auth);
 
     const handleBackdropClick = (e) => {
         if (e.target === e.currentTarget) {
@@ -18,9 +22,15 @@ export default function LoginModal({ onClose }) {
         const data = Object.fromEntries(formData);
 
         if (isRegister) {
-            console.log('Register payload:', data);
+            dispatch(register(data))
+                .unwrap()
+                .then(() => onClose()) // закрыть модалку после успеха
+                .catch(() => {});
         } else {
-            console.log('Login payload:', data);
+            dispatch(login({ username: data.nickname, password: data.password }))
+                .unwrap()
+                .then(() => onClose())
+                .catch(() => {});
         }
     };
 
@@ -55,128 +65,60 @@ export default function LoginModal({ onClose }) {
                 <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
                     {isRegister ? (
                         <>
+                            {/* поля для регистрации */}
                             <label className="flex flex-col text-sm text-gray-600">
                                 Email
-                                <input
-                                    name="email"
-                                    type="email"
-                                    required
-                                    placeholder="example@mail.com"
-                                    className="input-field"
-                                />
+                                <input name="email" type="email" required className="input-field" />
                             </label>
-
                             <label className="flex flex-col text-sm text-gray-600">
                                 Login Name
-                                <input
-                                    name="nickname"
-                                    type="text"
-                                    required
-                                    minLength={3}
-                                    placeholder="Login name"
-                                    className="input-field"
-                                />
+                                <input name="nickname" type="text" required minLength={3} className="input-field" />
                             </label>
-
                             <label className="flex flex-col text-sm text-gray-600">
                                 Password
-                                <input
-                                    name="password"
-                                    type="password"
-                                    required
-                                    minLength={6}
-                                    placeholder="Password"
-                                    className="input-field"
-                                />
+                                <input name="password" type="password" required minLength={6} className="input-field" />
                             </label>
-
                             <label className="flex flex-col text-sm text-gray-600">
                                 Full Name
-                                <input
-                                    name="fullName"
-                                    type="text"
-                                    placeholder="Full name"
-                                    className="input-field"
-                                />
+                                <input name="fullName" type="text" className="input-field" />
                             </label>
-
                             <label className="flex flex-col text-sm text-gray-600">
                                 City
-                                <input
-                                    name="city"
-                                    list="cities"
-                                    placeholder="City"
-                                    className="input-field"
-                                />
-                                <datalist id="cities">
-                                    <option value="New York" />
-                                    <option value="London" />
-                                    <option value="Paris" />
-                                    <option value="Berlin" />
-                                    <option value="Tokyo" />
-                                </datalist>
+                                <input name="city" className="input-field" />
                             </label>
-
                             <label className="flex flex-col text-sm text-gray-600">
                                 Country
-                                <input
-                                    name="country"
-                                    list="countries"
-                                    placeholder="Country"
-                                    className="input-field"
-                                />
-                                <datalist id="countries">
-                                    <option value="USA" />
-                                    <option value="UK" />
-                                    <option value="Germany" />
-                                    <option value="France" />
-                                    <option value="Japan" />
-                                </datalist>
+                                <input name="country" className="input-field" />
                             </label>
-
                             <label className="flex flex-col text-sm text-gray-600">
                                 Birth Date
-                                <input
-                                    name="birthDate"
-                                    type="date"
-                                    className="input-field"
-                                />
+                                <input name="birthDate" type="date" className="input-field" />
                             </label>
                         </>
                     ) : (
                         <>
+                            {/* поля для логина */}
                             <label className="flex flex-col text-sm text-gray-600">
                                 Login
-                                <input
-                                    name="nickname"
-                                    type="text"
-                                    required
-                                    placeholder="Login"
-                                    className="input-field"
-                                />
+                                <input name="nickname" type="text" required className="input-field" />
                             </label>
-
                             <label className="flex flex-col text-sm text-gray-600">
                                 Password
-                                <input
-                                    name="password"
-                                    type="password"
-                                    required
-                                    placeholder="Password"
-                                    className="input-field"
-                                />
+                                <input name="password" type="password" required className="input-field" />
                             </label>
                         </>
                     )}
 
                     <button
                         type="submit"
+                        disabled={loading}
                         className="bg-eco-primary hover:bg-eco-primary/90 transition text-white p-2 rounded-xl font-semibold"
                     >
-                        {isRegister ? 'Register' : 'Login'}
+                        {loading ? "..." : isRegister ? 'Register' : 'Login'}
                     </button>
                 </form>
 
+                {error && <p className="text-red-500 text-center mt-2">{error}</p>}
 
                 {/* Переключатель */}
                 <div className="text-sm text-center mt-4 text-gray-600">
@@ -208,10 +150,3 @@ export default function LoginModal({ onClose }) {
         </motion.div>
     );
 }
-
-/* tailwind classes можно вынести в globals.css */
-const inputField = `
-    border rounded-xl px-3 py-2 focus:ring-2 
-    focus:ring-eco-primary focus:outline-none
-    transition text-sm
-`;

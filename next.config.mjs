@@ -1,4 +1,27 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'images.unsplash.com',
+                port: '',
+                pathname: '/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'i.pinimg.com',
+                port: '',
+                pathname: '/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'steamuserimages-a.akamaihd.net',
+                port: '',
+                pathname: '/**',
+            }
+        ],
+    },
+};
 
 export default nextConfig;
