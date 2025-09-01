@@ -1,19 +1,20 @@
-"use client"
+// app/components/PropertyCard.jsx
+'use client';
+
 import { useState } from 'react';
 import { FaHeart, FaMapMarkerAlt, FaStar } from 'react-icons/fa';
-import { GiWoodFrame } from 'react-icons/gi';
 import { IoBedOutline, IoWaterOutline } from 'react-icons/io5';
-import { WiHot } from 'react-icons/wi';
 import { motion } from 'framer-motion';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleFavorite } from '@/app/store/slices/favoritesSlice';
 
 export default function PropertyCard({ property }) {
-    const [isFavorite, setIsFavorite] = useState(property.isFavorite);
+    const dispatch = useDispatch();
+    const favorites = useSelector(state => state.favorites.items);
+    const isFavorite = favorites.includes(property.id);
+
     const [isHovered, setIsHovered] = useState(false);
     const [isBookPressed, setIsBookPressed] = useState(false);
-
-    const toggleFavorite = () => {
-        setIsFavorite(!isFavorite);
-    };
 
     const handleBookClick = () => {
         setIsBookPressed(true);
@@ -23,7 +24,7 @@ export default function PropertyCard({ property }) {
     return (
         <motion.div
             className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 border border-eco-lighter"
-            whileHover={{ y: -5, backgroundColor: '#ddffd9' }}
+            whileHover={{ y: -5 }}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
@@ -39,14 +40,15 @@ export default function PropertyCard({ property }) {
                 <motion.button
                     className="absolute top-3 right-3 p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 transition"
                     whileTap={{ scale: 0.9 }}
-                    onClick={toggleFavorite}
+                    onClick={() => dispatch(toggleFavorite(property.id))}
                     animate={{
                         scale: isHovered ? 1.1 : 1,
-                        backgroundColor: isFavorite ? 'rgba(255, 255, 255, 1)' : 'rgba(255, 255, 255, 0.8)'
+                        backgroundColor: isFavorite ? '#fff' : 'rgba(255, 255, 255, 0.8)'
                     }}
-                    transition={{ type: 'spring', stiffness: 500 }}
                 >
-                    <FaHeart className={`h-5 w-5 ${isFavorite ? 'text-red-500 fill-current' : 'text-eco-medium'}`} />
+                    <FaHeart
+                        className={`h-5 w-5 ${isFavorite ? 'text-red-500 fill-current' : 'text-eco-medium'}`}
+                    />
                 </motion.button>
 
                 <motion.div
@@ -82,17 +84,11 @@ export default function PropertyCard({ property }) {
                 </motion.div>
 
                 <div className="flex items-center mt-3 text-sm text-eco-dark">
-                    <motion.div
-                        className="flex items-center mr-4"
-                        whileHover={{ scale: 1.05 }}
-                    >
+                    <motion.div className="flex items-center mr-4" whileHover={{ scale: 1.05 }}>
                         <IoBedOutline className="mr-1" />
                         <span>{property.beds} beds</span>
                     </motion.div>
-                    <motion.div
-                        className="flex items-center"
-                        whileHover={{ scale: 1.05 }}
-                    >
+                    <motion.div className="flex items-center" whileHover={{ scale: 1.05 }}>
                         <IoWaterOutline className="mr-1" />
                         <span>{property.baths} baths</span>
                     </motion.div>
@@ -103,10 +99,7 @@ export default function PropertyCard({ property }) {
                         <motion.span
                             key={index}
                             className="text-xs cursor-pointer bg-eco-lighter text-eco-dark px-2 py-1 rounded"
-                            whileHover={{
-                                scale: 1.1,
-                                backgroundColor: '#e8f5e9'
-                            }}
+                            whileHover={{ scale: 1.1, backgroundColor: '#e8f5e9' }}
                             transition={{ type: 'spring', stiffness: 300 }}
                         >
                             {amenity}

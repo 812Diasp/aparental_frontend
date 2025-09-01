@@ -1,3 +1,4 @@
+// app/components/navbar/Navbar.jsx
 'use client';
 
 import { FaUser, FaHeart, FaSearch, FaBars } from 'react-icons/fa';
@@ -5,17 +6,16 @@ import { GiWoodFrame } from 'react-icons/gi';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { usePathname } from 'next/navigation';
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../store/slices/authSlice";
-import { useState } from "react";
-import LoginButton from "@/app/components/loginButton/loginButton";
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../store/slices/authSlice';
+import { useState } from 'react';
 
 export default function Navbar() {
     const pathname = usePathname();
     const dispatch = useDispatch();
-    const { token } = useSelector((state) => state.auth);
-    const isLoggedIn = Boolean(token || (typeof window !== "undefined" && localStorage.getItem("token")));
 
+    // ✅ Только Redux — нет дублирования
+    const { token } = useSelector((state) => state.auth);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     const navLinks = [
@@ -27,7 +27,8 @@ export default function Navbar() {
     const isActive = (path) => pathname === path;
 
     const handleLogout = () => {
-        dispatch(logout());
+        dispatch(logout()); // ✅ Очистит Redux и localStorage
+        setMobileMenuOpen(false);
     };
 
     return (
@@ -56,11 +57,15 @@ export default function Navbar() {
                         {navLinks.map((link) => (
                             <Link href={link.href} key={link.href}>
                                 <motion.div className="relative" whileHover={{ scale: 1.05 }}>
-                                    <span className={`inline-flex items-center px-1 pt-1 text-sm font-medium ${
-                                        isActive(link.href) ? 'text-eco-dark font-semibold' : 'text-eco-medium hover:text-eco-dark'
-                                    }`}>
-                                        {link.label}
-                                    </span>
+                  <span
+                      className={`inline-flex items-center px-1 pt-1 text-sm font-medium ${
+                          isActive(link.href)
+                              ? 'text-eco-dark font-semibold'
+                              : 'text-eco-medium hover:text-eco-dark'
+                      }`}
+                  >
+                    {link.label}
+                  </span>
                                     {isActive(link.href) && (
                                         <motion.div
                                             className="absolute bottom-0 left-0 right-0 h-0.5 bg-eco-primary"
@@ -75,38 +80,61 @@ export default function Navbar() {
 
                     {/* Десктоп кнопки справа */}
                     <div className="hidden sm:flex sm:items-center space-x-2">
-                        <motion.button className="p-2 rounded-full text-eco-medium hover:text-eco-dark focus:outline-none"
-                                       whileHover={{ scale: 1.1, backgroundColor: '#f5f5f5' }} whileTap={{ scale: 0.9 }}>
+                        <motion.button
+                            className="p-2 rounded-full text-eco-medium hover:text-eco-dark focus:outline-none"
+                            whileHover={{ scale: 1.1, backgroundColor: '#f5f5f5' }}
+                            whileTap={{ scale: 0.9 }}
+                        >
                             <FaSearch className="h-5 w-5" />
                         </motion.button>
 
                         <Link href="/pages/favorites">
-                            <motion.button className="p-2 rounded-full text-eco-medium hover:text-eco-dark focus:outline-none"
-                                           whileHover={{ scale: 1.1, backgroundColor: '#f5f5f5' }} whileTap={{ scale: 0.9 }}>
+                            <motion.button
+                                className="p-2 rounded-full text-eco-medium hover:text-eco-dark focus:outline-none"
+                                whileHover={{ scale: 1.1, backgroundColor: '#f5f5f5' }}
+                                whileTap={{ scale: 0.9 }}
+                            >
                                 <FaHeart className="h-5 w-5" />
                             </motion.button>
                         </Link>
 
-                        {isLoggedIn ? (
-                            <Link href="/pages/profile">
+                        {token ? (
+                            <div className="flex items-center space-x-2">
+                                <Link href="/pages/profile">
+                                    <motion.button
+                                        className="flex items-center p-2 rounded-full text-eco-medium hover:text-eco-dark focus:outline-none"
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                    >
+                                        <FaUser className="h-5 w-5" />
+                                        <span className="ml-1 text-sm">Profile</span>
+                                    </motion.button>
+                                </Link>
+                                {/* Кнопка выхода */}
                                 <motion.button
-                                    className="p-2 rounded-full text-eco-medium hover:text-eco-dark focus:outline-none"
-                                    whileHover={{ scale: 1.1, backgroundColor: '#f5f5f5' }}
-                                    whileTap={{ scale: 0.9 }}
+                                    onClick={handleLogout}
+                                    className="text-sm text-gray-600 hover:text-red-500 transition"
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
                                 >
-                                    <FaUser className="h-5 w-5" />
-                                    <span className="ml-1 text-sm">Profile</span>
+                                    Logout
                                 </motion.button>
-                            </Link>
+                            </div>
                         ) : (
                             <Link href="/pages/login">
-                                <LoginButton />
+                                <motion.button
+                                    className="px-4 py-2 rounded-lg bg-eco-primary text-white text-sm font-medium hover:bg-eco-primary/90 transition"
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                >
+                                    Login
+                                </motion.button>
                             </Link>
                         )}
                     </div>
 
                     {/* Мобильное меню (бургер) */}
-                    <div className="sm:hidden flex items-center">
+                    <div className="sm:hidden">
                         <motion.button
                             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                             className="p-2 rounded-md text-eco-medium hover:text-eco-dark focus:outline-none"
@@ -118,7 +146,7 @@ export default function Navbar() {
                 </div>
             </div>
 
-            {/* Выпадающее меню для мобилок */}
+            {/* Мобильное меню */}
             <AnimatePresence>
                 {mobileMenuOpen && (
                     <motion.div
@@ -130,25 +158,48 @@ export default function Navbar() {
                     >
                         <div className="px-4 pt-2 pb-3 space-y-1">
                             {navLinks.map((link) => (
-                                <Link href={link.href} key={link.href} onClick={() => setMobileMenuOpen(false)}>
-                                    <div className={`block px-3 py-2 rounded-md text-base font-medium ${
-                                        isActive(link.href) ? 'bg-eco-light text-eco-dark' : 'text-eco-medium hover:bg-eco-light hover:text-eco-dark'
-                                    }`}>
+                                <Link
+                                    href={link.href}
+                                    key={link.href}
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    <div
+                                        className={`block px-3 py-2 rounded-md text-base font-medium ${
+                                            isActive(link.href)
+                                                ? 'bg-eco-light text-eco-dark'
+                                                : 'text-eco-medium hover:bg-eco-light hover:text-eco-dark'
+                                        }`}
+                                    >
                                         {link.label}
                                     </div>
                                 </Link>
                             ))}
 
-                            {/* Кнопка входа/профиля */}
-                            {isLoggedIn ? (
-                                <Link href="/pages/profile" onClick={() => setMobileMenuOpen(false)}>
-                                    <div className="flex items-center px-3 py-2 rounded-md text-base font-medium text-eco-dark hover:bg-eco-light">
-                                        <FaUser className="mr-2" /> Profile
-                                    </div>
-                                </Link>
+                            {token ? (
+                                <>
+                                    <Link
+                                        href="/pages/profile"
+                                        onClick={() => setMobileMenuOpen(false)}
+                                    >
+                                        <div className="flex items-center px-3 py-2 rounded-md text-base font-medium text-eco-dark hover:bg-eco-light">
+                                            <FaUser className="mr-2" /> Profile
+                                        </div>
+                                    </Link>
+                                    <button
+                                        onClick={handleLogout}
+                                        className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-red-500 hover:bg-red-50 transition"
+                                    >
+                                        Logout
+                                    </button>
+                                </>
                             ) : (
-                                <Link href="/pages/login" onClick={() => setMobileMenuOpen(false)}>
-                                    <LoginButton mobile />
+                                <Link
+                                    href="/pages/login"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    <div className="px-3 py-2 rounded-md text-base font-medium text-eco-primary hover:bg-eco-light">
+                                        Login
+                                    </div>
                                 </Link>
                             )}
                         </div>
