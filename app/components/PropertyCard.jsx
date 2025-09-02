@@ -7,10 +7,11 @@ import { IoBedOutline, IoWaterOutline } from 'react-icons/io5';
 import { motion } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleFavorite } from '@/app/store/slices/favoritesSlice';
+import { cacheProperty } from '@/app/store/utils/propertyCache'; // <-- импортируем утилиту
 
 export default function PropertyCard({ property }) {
     const dispatch = useDispatch();
-    const favorites = useSelector(state => state.favorites.items);
+    const favorites = useSelector((state) => state.favorites.items);
     const isFavorite = favorites.includes(property.id);
 
     const [isHovered, setIsHovered] = useState(false);
@@ -19,6 +20,13 @@ export default function PropertyCard({ property }) {
     const handleBookClick = () => {
         setIsBookPressed(true);
         setTimeout(() => setIsBookPressed(false), 300);
+    };
+
+    const handleFavoriteClick = () => {
+        // Сначала кэшируем объект
+        cacheProperty(property);
+        // Потом диспатчим action (только id)
+        dispatch(toggleFavorite(property.id));
     };
 
     return (
@@ -40,10 +48,10 @@ export default function PropertyCard({ property }) {
                 <motion.button
                     className="absolute top-3 right-3 p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 transition"
                     whileTap={{ scale: 0.9 }}
-                    onClick={() => dispatch(toggleFavorite(property.id))}
+                    onClick={handleFavoriteClick}
                     animate={{
                         scale: isHovered ? 1.1 : 1,
-                        backgroundColor: isFavorite ? '#fff' : 'rgba(255, 255, 255, 0.8)'
+                        backgroundColor: isFavorite ? '#fff' : 'rgba(255, 255, 255, 0.8)',
                     }}
                 >
                     <FaHeart
@@ -119,7 +127,7 @@ export default function PropertyCard({ property }) {
                         onClick={handleBookClick}
                         animate={{
                             scale: isBookPressed ? 0.95 : 1,
-                            backgroundColor: isHovered ? '#4a9f55' : '#3a7d44'
+                            backgroundColor: isHovered ? '#4a9f55' : '#3a7d44',
                         }}
                     >
                         Book

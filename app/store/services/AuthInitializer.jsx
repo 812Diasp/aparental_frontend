@@ -1,4 +1,4 @@
-// app/layout.js или Providers
+
 'use client';
 
 import { useEffect } from 'react';
