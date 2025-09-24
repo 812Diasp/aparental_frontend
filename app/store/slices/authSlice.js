@@ -46,6 +46,7 @@ const authSlice = createSlice({
         userId: null,
         token: null,
         role: null,
+        isAuthenticated: false, // Добавляем поле isAuthenticated
         loading: false,
         error: null,
     },
@@ -57,6 +58,7 @@ const authSlice = createSlice({
             state.userId = null;
             state.token = null;
             state.role = null;
+            state.isAuthenticated = false; // Сбрасываем аутентификацию
             state.error = null;
         },
         // Подтягиваем токен из localStorage при инициализации
@@ -65,10 +67,15 @@ const authSlice = createSlice({
                 const token = localStorage.getItem('token');
                 if (token) {
                     state.token = token;
+                    state.isAuthenticated = true; // Устанавливаем аутентификацию
                     // ⚠️ userId и role не восстанавливаются — они будут подгружены через fetchMe
                 }
             }
         },
+        // Добавляем action для установки isAuthenticated
+        setAuthenticated: (state, action) => {
+            state.isAuthenticated = action.payload;
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -82,9 +89,11 @@ const authSlice = createSlice({
                 state.token = action.payload.token;
                 state.userId = action.payload.userId;
                 state.role = action.payload.role;
+                state.isAuthenticated = true; // Устанавливаем аутентификацию
             })
             .addCase(login.rejected, (state, action) => {
                 state.loading = false;
+                state.isAuthenticated = false; // Сбрасываем аутентификацию
                 state.error = action.payload;
             })
             // Register
@@ -97,13 +106,15 @@ const authSlice = createSlice({
                 state.token = action.payload.token;
                 state.userId = action.payload.userId;
                 state.role = action.payload.role;
+                state.isAuthenticated = true; // Устанавливаем аутентификацию
             })
             .addCase(register.rejected, (state, action) => {
                 state.loading = false;
+                state.isAuthenticated = false; // Сбрасываем аутентификацию
                 state.error = action.payload;
             });
     },
 });
 
-export const { logout, loadToken } = authSlice.actions;
+export const { logout, loadToken, setAuthenticated } = authSlice.actions;
 export default authSlice.reducer;

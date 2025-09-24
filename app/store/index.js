@@ -4,6 +4,7 @@ import authReducer from './slices/authSlice';
 import userReducer from './slices/userSlice';
 import favoritesReducer from './slices/favoritesSlice';
 import propertiesReducer from './slices/propertiesSlice';
+import bookingReducer from './slices/bookingSlice'
 
 export const makeStore = () => {
     return configureStore({
@@ -12,6 +13,7 @@ export const makeStore = () => {
             user: userReducer,
             favorites: favoritesReducer,
             properties: propertiesReducer,
+            booking: bookingReducer,
         },
     });
 };

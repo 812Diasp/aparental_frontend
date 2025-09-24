@@ -111,7 +111,7 @@ export default function Home() {
           </div>
         </section>
         <div className={'mb-12'}>
-          <SearchFilters onSearch={handleSearch} />
+          {/*<SearchFilters onSearch={handleSearch} />*/}
         </div>
 
         {/* === Properties Grid === */}
